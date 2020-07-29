@@ -2,11 +2,11 @@
 // Import the module and reference it with the alias vscode in your code below
 const vscode = require('vscode');
 
-const figureTemplate = `<figure class="">
-![\${figOptions.altText}(\${figOptions.path}\${figOptions.imageName})
-<figcaption>
-\${figOptions.figCaption}
-</figcaption>
+const figureTemplate = `<figure class="\${cssClass}">
+![\${altText}](\${path}\${imageName})
+  <figcaption>
+  \${figCaption}
+  </figcaption>
 </figure>`;
 
 let insertText = (value) => {
@@ -34,6 +34,14 @@ let getFileTemplate = () => {
 	return vscode.workspace.getConfiguration("staticSiteHero")["filePathTemplate"];
 };
 
+let getWidthCssClassTemplate = () => {
+	return vscode.workspace.getConfiguration("staticSiteHero")["widthCssClasses"];
+};
+
+let getAlignmentCssClassTemplate = () => {
+	return vscode.workspace.getConfiguration("staticSiteHero")["alignmentCssClasses"];
+};
+
 let updateTemplateWithDate = (template) => {
 	let today = new Date();
 	let year = today.getFullYear();
@@ -48,10 +56,14 @@ let updateTemplateWithDate = (template) => {
 exports.updateTemplateWithDate = updateTemplateWithDate;
 
 let fillFigureTemplate = (figOptions) => {
-	let figure = figureTemplate.replace('${figOptions.imageName}', figOptions.imageName);
-	figure = figure.replace('${figOptions.path}', figOptions.path);
-	figure = figure.replace('${figOptions.altText}', figOptions.altText);
-	figure = figure.replace('${figOptions.figCaption}', figOptions.figCaption);
+	figOptions.cssClass = `${figOptions.cssWidthClass} ${figOptions.cssAlignmentClass}`;
+
+	let figure = figureTemplate.replace('${imageName}', figOptions.imageName);
+	figure = figure.replace('${path}', figOptions.path);
+	figure = figure.replace('${altText}', figOptions.altText);
+	figure = figure.replace('${figCaption}', figOptions.figCaption);
+	figure = figure.replace('${cssClass}', figOptions.cssClass);
+	figure = figure.replace('${cssAlignmentClass}', figOptions.cssAlignmentClass);
 
 	return figure;
 }
@@ -102,7 +114,9 @@ function activate(context) {
 			imageName: '',
 			altText: '',
 			figCaption: '',
-			path: template
+			path: template,
+			cssWidthClass: '',
+			cssAlignmentClass: ''
 		}
 
 		vscode.window.showInputBox({ prompt: "Image File Name" })
@@ -114,6 +128,20 @@ function activate(context) {
 					.then(result => {
 						figOptions.altText = result;
 						figOptions.figCaption = result;
+					})
+			})
+			.then(() => {
+				const widthClasses = getWidthCssClassTemplate();
+				return vscode.window.showQuickPick(widthClasses, { placeHolder: "Width Class" })
+					.then(result => {
+						figOptions.cssWidthClass = result;
+					})
+			})
+			.then(() => {
+				const alignmentClasses = getAlignmentCssClassTemplate();
+				return vscode.window.showQuickPick(alignmentClasses, { placeHolder: "Alignment Class" })
+					.then(result => {
+						figOptions.cssAlignmentClass = result
 					})
 			})
 			.then(() => {
