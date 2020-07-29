@@ -2,6 +2,31 @@
 // Import the module and reference it with the alias vscode in your code below
 const vscode = require('vscode');
 
+let insertText = (value) => {
+	let editor = vscode.window.activeTextEditor;
+
+	if (!editor) {
+		vscode.window.showErrorMessage("Can't insert text - no document is open.");
+		return;
+	}
+
+	let selection = editor.selection;
+
+	let range = new vscode.Range(selection.start, selection.end);
+
+	editor.edit((editBuilder) => {
+		editBuilder.replace(range, value);
+	});
+};
+
+let getImageTemplate = () => {
+	return vscode.workspace.getConfiguration("staticSiteHero")["imagePathTemplate"];
+}
+
+let getFileTemplate = () => {
+	return vscode.workspace.getConfiguration("staticSiteHero")["filePathTemplate"];
+}
+
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 
@@ -25,7 +50,12 @@ function activate(context) {
 
 		vscode.window.showQuickPick(linkTypeList, { placeHolder: 'Link Type' })
 			.then(result => {
-				insertText(result);
+				// insertText(result);
+				if (result === 'File') {
+					insertText(getFileTemplate());
+				} else if (result === 'Image') {
+					insertText(getImageTemplate());
+				}
 			});
 	});
 
@@ -42,23 +72,6 @@ exports.activate = activate;
 // this method is called when your extension is deactivated
 function deactivate() { }
 exports.deactivate = deactivate;
-
-let insertText = (value) => {
-	let editor = vscode.window.activeTextEditor;
-
-	if (!editor) {
-		vscode.window.showErrorMessage("Can't insert text - no document is open.");
-		return;
-	}
-
-	let selection = editor.selection;
-
-	let range = new vscode.Range(selection.start, selection.end);
-
-	editor.edit((editBuilder) => {
-		editBuilder.replace(range, value);
-	});
-};
 
 module.exports = {
 	activate,

@@ -15,6 +15,22 @@
 	],
 	"main": "./extension.js",
 	"contributes": {
+		"configuration": {
+			"type": "object",
+			"title": "Static Site Hero Configuration",
+			"properties": {
+				"staticSiteHero.imagePathTemplate": {
+					"type": "string",
+					"default": "/images/${year}/${month}/",
+					"description": "Specifies the folder containing images."
+				},
+				"staticSiteHero.filePathTemplate": {
+					"type": "string",
+					"default": "/files/${year}/${month}/",
+					"description": "Specifies the folder containing files."
+				}
+			}
+		},
 		"commands": [
 			{
 				"command": "static-site-hero.insertLink",
