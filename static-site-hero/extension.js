@@ -3,9 +3,9 @@
 const vscode = require('vscode');
 
 const figureTemplate = `<figure class="">
-![Alt Text](\${figOptions.path}\${figOptions.imageName})
+![\${figOptions.altText}(\${figOptions.path}\${figOptions.imageName})
 <figcaption>
-Caption
+\${figOptions.figCaption}
 </figcaption>
 </figure>`;
 
@@ -50,6 +50,8 @@ exports.updateTemplateWithDate = updateTemplateWithDate;
 let fillFigureTemplate = (figOptions) => {
 	let figure = figureTemplate.replace('${figOptions.imageName}', figOptions.imageName);
 	figure = figure.replace('${figOptions.path}', figOptions.path);
+	figure = figure.replace('${figOptions.altText}', figOptions.altText);
+	figure = figure.replace('${figOptions.figCaption}', figOptions.figCaption);
 
 	return figure;
 }
@@ -98,12 +100,21 @@ function activate(context) {
 
 		let figOptions = {
 			imageName: '',
+			altText: '',
+			figCaption: '',
 			path: template
 		}
 
 		vscode.window.showInputBox({ prompt: "Image File Name" })
 			.then(value => {
 				figOptions.imageName = value;
+			})
+			.then(() => {
+				return vscode.window.showInputBox({ prompt: "Figure Caption" })
+					.then(result => {
+						figOptions.altText = result;
+						figOptions.figCaption = result;
+					})
 			})
 			.then(() => {
 				insertText(fillFigureTemplate(figOptions));
