@@ -6,7 +6,7 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "Debug Ext (StaticSiteHero)",
+			"name": "Run StaticSiteHero Extension",
 			"type": "extensionHost",
 			"request": "launch",
 			"runtimeExecutable": "${execPath}",
@@ -15,7 +15,7 @@
 			]
 		},
 		{
-			"name": "Ext Test (StaticSiteHero)",
+			"name": "Test StaticSiteHero Extension",
 			"type": "extensionHost",
 			"request": "launch",
 			"runtimeExecutable": "${execPath}",
@@ -25,7 +25,7 @@
 			]
 		},
 		{
-			"name": "Debug Ext (HelloWorld)",
+			"name": "Run HelloWorld Extension",
 			"type": "extensionHost",
 			"request": "launch",
 			"runtimeExecutable": "${execPath}",
@@ -34,7 +34,7 @@
 			]
 		},
 		{
-			"name": "Ext Test (HelloWorld)",
+			"name": "Test HelloWorld Extension",
 			"type": "extensionHost",
 			"request": "launch",
 			"runtimeExecutable": "${execPath}",

@@ -2,6 +2,13 @@
 // Import the module and reference it with the alias vscode in your code below
 const vscode = require('vscode');
 
+const figureTemplate = `<figure class="">
+![Alt Text](\${figOptions.path}\${figOptions.imageName})
+<figcaption>
+Caption
+</figcaption>
+</figure>`;
+
 let insertText = (value) => {
 	let editor = vscode.window.activeTextEditor;
 
@@ -39,6 +46,13 @@ let updateTemplateWithDate = (template) => {
 }
 
 exports.updateTemplateWithDate = updateTemplateWithDate;
+
+let fillFigureTemplate = (figOptions) => {
+	let figure = figureTemplate.replace('${figOptions.imageName}', figOptions.imageName);
+	figure = figure.replace('${figOptions.path}', figOptions.path);
+
+	return figure;
+}
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -78,6 +92,24 @@ function activate(context) {
 
 	let figureDisposable = vscode.commands.registerCommand('static-site-hero.insertFigure', () => {
 		vscode.window.showInformationMessage('Insert Figure Tag Initiated');
+
+		let template = getImageTemplate();
+		template = updateTemplateWithDate(template);
+
+		let figOptions = {
+			imageName: '',
+			path: template
+		}
+
+		vscode.window.showInputBox({ prompt: "Image File Name" })
+			.then(value => {
+				figOptions.imageName = value;
+			})
+			.then(() => {
+				insertText(fillFigureTemplate(figOptions));
+			});
+
+		insertText(figureTemplate);
 	});
 
 	context.subscriptions.push(figureDisposable);
