@@ -18,17 +18,15 @@ function activate(context) {
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with  registerCommand
 	// The commandId parameter must match the command field in package.json
-	let helloDisposable = vscode.commands.registerCommand('static-site-hero.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from Static Site Hero!');
-	});
-
-	context.subscriptions.push(helloDisposable);
-
 	let fileLinkDisposable = vscode.commands.registerCommand('static-site-hero.insertLink', () => {
 		vscode.window.showInformationMessage('Insert File Link Initiated.');
+
+		let linkTypeList = ['File', 'Image'];
+
+		vscode.window.showQuickPick(linkTypeList, { placeHolder: 'Link Type' })
+			.then(result => {
+				insertText(result);
+			});
 	});
 
 	context.subscriptions.push(fileLinkDisposable);
@@ -43,6 +41,24 @@ exports.activate = activate;
 
 // this method is called when your extension is deactivated
 function deactivate() { }
+exports.deactivate = deactivate;
+
+let insertText = (value) => {
+	let editor = vscode.window.activeTextEditor;
+
+	if (!editor) {
+		vscode.window.showErrorMessage("Can't insert text - no document is open.");
+		return;
+	}
+
+	let selection = editor.selection;
+
+	let range = new vscode.Range(selection.start, selection.end);
+
+	editor.edit((editBuilder) => {
+		editBuilder.replace(range, value);
+	});
+};
 
 module.exports = {
 	activate,

@@ -10,17 +10,12 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:static-site-hero.helloWorld",
 		"onCommand:static-site-hero.insertLink",
 		"onCommand:static-site-hero.insertFigure"
 	],
 	"main": "./extension.js",
 	"contributes": {
 		"commands": [
-			{
-				"command": "static-site-hero.helloWorld",
-				"title": "Hello World"
-			},
 			{
 				"command": "static-site-hero.insertLink",
 				"title": "Insert Markdown Link to File or Image"
