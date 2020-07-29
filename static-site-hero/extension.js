@@ -21,10 +21,21 @@ let insertText = (value) => {
 
 let getImageTemplate = () => {
 	return vscode.workspace.getConfiguration("staticSiteHero")["imagePathTemplate"];
-}
+};
 
 let getFileTemplate = () => {
 	return vscode.workspace.getConfiguration("staticSiteHero")["filePathTemplate"];
+};
+
+let updateTemplateWithDate = (template) => {
+	let today = new Date();
+	let year = today.getFullYear();
+	let month = ('0' + (today.getMonth() + 1)).slice(-2);
+
+	template = template.replace("${year}", year);
+	template = template.replace("${month}", month);
+
+	return template;
 }
 
 // this method is called when your extension is activated
@@ -52,9 +63,11 @@ function activate(context) {
 			.then(result => {
 				// insertText(result);
 				if (result === 'File') {
-					insertText(getFileTemplate());
+					const filepath = updateTemplateWithDate(getFileTemplate())
+					insertText(`[Link Text](${filepath})`);
 				} else if (result === 'Image') {
-					insertText(getImageTemplate());
+					const imagepath = updateTemplateWithDate(getImageTemplate())
+					insertText(`![Image Text](${imagepath})`);
 				}
 			});
 	});
