@@ -38,6 +38,8 @@ let updateTemplateWithDate = (template) => {
 	return template;
 }
 
+exports.updateTemplateWithDate = updateTemplateWithDate;
+
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 
@@ -88,5 +90,6 @@ exports.deactivate = deactivate;
 
 module.exports = {
 	activate,
-	deactivate
+	deactivate,
+	updateTemplateWithDate
 }

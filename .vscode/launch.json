@@ -1,0 +1,48 @@
+// A launch configuration that launches the extension inside a new window
+// Use IntelliSense to learn about possible attributes.
+// Hover to view descriptions of existing attributes.
+// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Debug Ext (StaticSiteHero)",
+			"type": "extensionHost",
+			"request": "launch",
+			"runtimeExecutable": "${execPath}",
+			"args": [
+				"--extensionDevelopmentPath=${workspaceFolder}/static-site-hero"
+			]
+		},
+		{
+			"name": "Ext Test (StaticSiteHero)",
+			"type": "extensionHost",
+			"request": "launch",
+			"runtimeExecutable": "${execPath}",
+			"args": [
+				"--extensionDevelopmentPath=${workspaceFolder}/static-site-hero",
+				"--extensionTestsPath=${workspaceFolder}/static-site-hero/test/suite/index"
+			]
+		},
+		{
+			"name": "Debug Ext (HelloWorld)",
+			"type": "extensionHost",
+			"request": "launch",
+			"runtimeExecutable": "${execPath}",
+			"args": [
+				"--extensionDevelopmentPath=${workspaceFolder}/hello-world"
+			]
+		},
+		{
+			"name": "Ext Test (HelloWorld)",
+			"type": "extensionHost",
+			"request": "launch",
+			"runtimeExecutable": "${execPath}",
+			"args": [
+				"--extensionDevelopmentPath=${workspaceFolder}/hello-world",
+				"--extensionTestsPath=${workspaceFolder}/hello-world/test/suite/index"
+			]
+		}
+
+	]
+}
