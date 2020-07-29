@@ -10,7 +10,9 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:static-site-hero.helloWorld"
+		"onCommand:static-site-hero.helloWorld",
+		"onCommand:static-site-hero.insertLink",
+		"onCommand:static-site-hero.insertFigure"
 	],
 	"main": "./extension.js",
 	"contributes": {
@@ -18,6 +20,28 @@
 			{
 				"command": "static-site-hero.helloWorld",
 				"title": "Hello World"
+			},
+			{
+				"command": "static-site-hero.insertLink",
+				"title": "Insert Markdown Link to File or Image"
+			},
+			{
+				"command": "static-site-hero.insertFigure",
+				"title": "Insert HTML Figure"
+			}
+		],
+		"keybindings": [
+			{
+				"command": "static-site-hero.insertLink",
+				"key": "shift+ctrl+l",
+				"mac": "shift+cmd+l",
+				"when": "editorTextFocus"
+			},
+			{
+				"command": "static-site-hero.insertFigure",
+				"key": "shift+ctrl+f",
+				"mac": "shift+cmd+f",
+				"when": "editorTextFocus"
 			}
 		]
 	},
